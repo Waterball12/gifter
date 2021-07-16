@@ -1,5 +1,7 @@
-﻿using Gifter.Domain.Models;
+﻿using Gifter.Api.Dto;
+using Gifter.Domain.Models;
 using Gifter.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,8 +23,15 @@ namespace Gifter.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateSharingGift([FromBody] Gift gift)
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateSharingGift([FromBody] CreateGiftDto dto)
         {
+            var gift = new Gift()
+            {
+                Name = dto.Name,
+                Items = dto.Items.ToHashSet()
+            };
+
             await _context.Gift.InsertOneAsync(gift)
                 .ConfigureAwait(false);
 

@@ -8,7 +8,10 @@ namespace Gifter.Domain.Models
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public int Id { get; set; }
+        public string Id { get; set; }
+
+        [BsonElement("name")]
+        public string Name { get; set; }
 
         [BsonElement("items")]
         public HashSet<GiftItem> Items { get; set; }
