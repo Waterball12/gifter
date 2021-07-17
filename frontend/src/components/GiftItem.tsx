@@ -1,13 +1,17 @@
 import { Field } from 'formik';
 import React from 'react';
+import Image from 'next/image';
+import GiftImage from '../../public/gift.svg';
 
 export interface GiftItemProps {
     index?: number;
+    readOnly?: boolean
 }
 
 const GiftItem = (props: GiftItemProps) => {
     const {
-        index
+        index,
+        readOnly = false
     } = props;
 
     return (
@@ -20,14 +24,25 @@ const GiftItem = (props: GiftItemProps) => {
                                 className="relative flex items-center justify-center flex-shrink-0 text-lg rounded-full overflow-hidden"
                                 style={{width: '100px', height: '100px'}}
                             >
-                                <img className="w-full h-full text-center object-cover" src="/gift.svg" alt="" />
+                                <Image className="w-full h-full text-center object-cover" src={GiftImage} alt="" />
                             </div>
                         </div>
                         <div className="rounded-xl border-2 border-gray-300 mt-4 p-2">
-                            <Field name={`items.${index}.name`} placeholder="Name" autoComplete="off"/>
+                            <Field
+                                name={`items.${index}.name`}
+                                placeholder="Name"
+                                autoComplete="off"
+                                readOnly={readOnly}
+                                className="w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                            />
                         </div>
                         <div className="rounded-xl border-2 border-gray-300 mt-4 p-2">
-                            <Field name={`items.${index}.description`} placeholder="Description"  autoComplete="off"
+                            <Field
+                                name={`items.${index}.description`}
+                                placeholder="Description"
+                                autoComplete="off"
+                                readOnly={readOnly}
+                                className="w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                             />
                         </div>
                     </div>

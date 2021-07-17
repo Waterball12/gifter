@@ -1,7 +1,10 @@
 export interface Gift {
-    id: number;
+    id: string;
     name: string;
     items: GiftItems[];
+    multiple: boolean;
+    maxOpening: number;
+    consumed?: number;
 }
 
 export interface GiftItems {

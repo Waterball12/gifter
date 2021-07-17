@@ -1,19 +1,22 @@
 import React from 'react';
-
 import {Field, FieldArray, Form, Formik, FormikHelpers} from 'formik';
-
 import { Meta } from '../layout/Meta';
 import { Main } from '../templates/Main';
 import GiftItem from "../components/GiftItem";
 import Api from "../utils/api";
 import {Gift} from "../types/GiftTypes";
+import {parseCookies} from "nookies";
 
 const Create = () => {
+    const cookies = parseCookies();
 
+    const token = cookies.token || null;
     const handleSubmit = async (values: Gift, helpers: FormikHelpers<Gift>) => {
 
         try {
-            await Api.post('/api/gift', {...values});
+            await Api.post('/api/gift', {...values}, {headers: {
+                'Authorization': 'Bearer ' + token
+            }});
 
             helpers.resetForm();
 
@@ -25,14 +28,20 @@ const Create = () => {
 
     }
 
+    if (token == null) {
+        return (<div>Please login in</div>)
+    }
+
     return (
         <Main meta={<Meta title="Homepage" description="Description" />}>
             <div className="z-20 container px-6 flex flex-col relative py-4 mx-auto">
                 <div className="flex flex-col">
                     <Formik initialValues={{
-                        id: 0,
+                        id: '',
                         name: '',
-                        items: []
+                        items: [],
+                        multiple: false,
+                        maxOpening: 0
                     } as Gift} onSubmit={handleSubmit}>
                         {({values}) => (
                             <Form>
@@ -44,9 +53,15 @@ const Create = () => {
                                         id="name"
                                         name="name"
                                         placeholder="Name"
-                                        className="w-full"
+                                        className="w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                                         autoComplete="off"
                                     />
+                                </div>
+                                <div className="mt-3">
+                                    <label>
+                                        <Field type="checkbox" name="multiple" className="mr-2 form-checkbox" />
+                                        Allow multiple opening
+                                    </label>
                                 </div>
                                 <FieldArray name="items" render={arrayUtils => (
                                     <>
