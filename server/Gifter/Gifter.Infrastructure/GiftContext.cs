@@ -8,7 +8,6 @@ namespace Gifter.Infrastructure
     {
         public IMongoCollection<Gift> Gift { get; }
 
-
         public GiftContext(GiftContextOptions options)
         {
             var mongo = new MongoClient(options.DatabaseConnection);

@@ -1,12 +1,17 @@
+using Gifter.Domain.Models;
 using Gifter.Domain.Options;
 using Gifter.Infrastructure;
+using Gifter.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace Gifter.Api
 {
@@ -29,6 +34,7 @@ namespace Gifter.Api
             });
 
             services.Configure<GiftContextOptions>(Configuration);
+            services.Configure<TokenOptions>(Configuration.GetSection("Token"));
 
             services.AddSingleton<GiftContext>(sp =>
             {
@@ -46,6 +52,25 @@ namespace Gifter.Api
                         .AllowAnyMethod();
                 });
             });
+            services.AddSingleton<IGiftRepository, GiftRepository>();
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("Token").GetValue<string>("Secret"))),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +87,8 @@ namespace Gifter.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

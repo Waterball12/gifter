@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace Gifter.Domain.Models
 {
@@ -15,5 +14,20 @@ namespace Gifter.Domain.Models
 
         [BsonElement("items")]
         public HashSet<GiftItem> Items { get; set; }
+
+        [BsonElement("multiple")]
+        public bool Multiple { get; set; }
+
+        [BsonElement("share_link")]
+        public string ShareLink { get; set; }
+
+        [BsonElement("consumed")]
+        public int Consumed { get; set; }
+
+        [BsonElement("max_opening")]
+        public int MaxOpening { get; set; }
+
+        [BsonElement("user_id")]
+        public string UserId {get;set; }
     }
 }

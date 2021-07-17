@@ -15,9 +15,6 @@ namespace Gifter.Domain.Models
         [BsonElement("description")]
         public string Description { get; set; }
 
-        [BsonElement("created")]
-        public DateTime Created { get; set; }
-
         [BsonElement("image_url")]
         public string ImageUrl { get; set; }
     }
