@@ -10,7 +10,15 @@ namespace Gifter.Infrastructure
 
         public GiftContext(GiftContextOptions options)
         {
-            var mongo = new MongoClient(options.DatabaseConnection);
+            
+            MongoClientSettings settings = MongoClientSettings.FromUrl(
+                new MongoUrl(options.DatabaseConnection));
+
+            settings.AllowInsecureTls = true;
+
+            var mongo = new MongoClient(settings);
+
+            //var mongo = new MongoClient(options.DatabaseConnection);
 
             var db = mongo.GetDatabase("gifter");
 

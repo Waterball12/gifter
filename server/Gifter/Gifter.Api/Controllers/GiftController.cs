@@ -33,9 +33,9 @@ namespace Gifter.Api.Controllers
 
             var gift = await _repository.GetGiftAsync(id, cancellationToken);
 
-            //var userId = GetUserId(HttpContext);
+            var userId = GetUserId(HttpContext);
 
-            //if (userId != null && gift.UserId == userId) return Unauthorized();
+            if (userId != null && gift.UserId == userId) return Unauthorized();
 
             if (gift == null)
                 return NotFound();
