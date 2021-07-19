@@ -5,11 +5,12 @@ import {Field, Form, Formik, FormikHelpers} from "formik";
 import Api from "../utils/api";
 import {Main} from "../templates/Main";
 import {Meta} from "../layout/Meta";
+import {useClipboard} from "use-clipboard-copy";
 
 const MyGifts = () => {
     const cookies = parseCookies();
     const token = cookies.token || null;
-
+    const clipboard = useClipboard();
     const [gifts, setGifts] = useState<Gift[]>([]);
 
     useEffect(() => {
@@ -20,7 +21,7 @@ const MyGifts = () => {
             .then(rsp => {
                 setGifts(rsp.data);
             });
-    }, []);
+    }, [token]);
 
     if (token == null) {
         return (<div>Please login in</div>)
@@ -97,7 +98,15 @@ const MyGifts = () => {
                                                                 Share link
                                                             </h2>
                                                             <div className="rounded-xl border-2 border-gray-300 p-2">
-                                                                <input readOnly value="..." className="w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75" />
+                                                                <input
+                                                                    ref={clipboard.target}
+                                                                    readOnly
+                                                                    value={`${window.location.host}/open?id=${gift.id}`}
+                                                                    className="w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                                                                />
+                                                                <button className="rounded-xl border-2 border-gray-300 p-1" onClick={clipboard.copy}>
+                                                                    Copy
+                                                                </button>
                                                             </div>
                                                             <button
                                                                 className="mt-3 px-4 py-2 text-sm font-medium text-white bg-black rounded-md hover:bg-opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"

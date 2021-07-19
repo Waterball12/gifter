@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment, useState} from 'react';
 import {Field, FieldArray, Form, Formik, FormikHelpers} from 'formik';
 import { Meta } from '../layout/Meta';
 import { Main } from '../templates/Main';
@@ -6,26 +6,37 @@ import GiftItem from "../components/GiftItem";
 import Api from "../utils/api";
 import {Gift} from "../types/GiftTypes";
 import {parseCookies} from "nookies";
+import {Dialog, Transition} from "@headlessui/react";
+import {useClipboard} from "use-clipboard-copy";
 
 const Create = () => {
     const cookies = parseCookies();
-
     const token = cookies.token || null;
+    const [isOpen, setIsOpen] = useState(false);
+    const [created, setCreated] = useState<Gift | null>(null);
+    const clipboard = useClipboard();
     const handleSubmit = async (values: Gift, helpers: FormikHelpers<Gift>) => {
 
         try {
-            await Api.post('/api/gift', {...values}, {headers: {
+            const rsp = await Api.post<Gift>('/api/gift', {...values}, {headers: {
                 'Authorization': 'Bearer ' + token
             }});
-
+            setCreated(rsp.data);
             helpers.resetForm();
-
+            openModal();
         } catch
         {
 
         }
+    }
 
 
+    const closeModal = () => {
+        setIsOpen(false)
+    }
+
+    const openModal = () => {
+        setIsOpen(true)
     }
 
     if (token == null) {
@@ -97,6 +108,67 @@ const Create = () => {
                             </Form>
                         )}
                     </Formik>
+
+                    <div>
+                        <Transition appear show={isOpen} as={Fragment}>
+                            <Dialog
+                                as="div"
+                                className="fixed inset-0 z-50 overflow-y-auto"
+                                onClose={closeModal}
+                            >
+                                <div className="min-h-screen px-4 text-center">
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0"
+                                        enterTo="opacity-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                    >
+                                        <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+                                    </Transition.Child>
+                                    <span
+                                        className="inline-block h-screen align-middle"
+                                        aria-hidden="true"
+                                    >
+                                    &#8203;
+                                </span>
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0 scale-95"
+                                        enterTo="opacity-100 scale-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100 scale-100"
+                                        leaveTo="opacity-0 scale-95"
+                                    >
+                                        <div className="inline-block w-full max-w-7xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                            <Dialog.Title
+                                                as="h3"
+                                                className="text-lg font-bold leading-2 text-gray-900"
+                                            >
+                                                Share link
+                                            </Dialog.Title>
+                                            <div>
+                                                <div className="rounded-xl border-2 border-gray-300 p-2">
+                                                    <input
+                                                        ref={clipboard.target}
+                                                        readOnly
+                                                        value={`${window.location.host}/open?id=${created?.id}`}
+                                                        className="w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                                                    />
+                                                    <button className="rounded-xl border-2 border-gray-300 p-1" onClick={clipboard.copy}>
+                                                        Copy
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Transition.Child>
+                                </div>
+                            </Dialog>
+                        </Transition>
+                    </div>
                 </div>
             </div>
         </Main>
