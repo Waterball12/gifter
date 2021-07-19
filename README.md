@@ -34,7 +34,7 @@ yarn install
 After you've installed the dependencies you can start the local server using
 
 ```
-yarn start
+yarn dev
 ```
 
 
