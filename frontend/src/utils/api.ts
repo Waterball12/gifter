@@ -6,7 +6,7 @@ export interface GifterApi extends AxiosInstance {
 }
 
 const Api = axios.create({
-    baseURL: "https://" + process.env.NEXT_PUBLIC_API_ENDPOINT
+    baseURL: "https://" + process.env.NEXT_PUBLIC_API_URL
 }) as GifterApi;
 
 Api.CancelToken = axios.CancelToken;
