@@ -114,7 +114,7 @@ const Create = () => {
                             <Dialog
                                 as="div"
                                 className="fixed inset-0 z-50 overflow-y-auto"
-                                onClose={closeModal}
+                                onClose={() => null}
                             >
                                 <div className="min-h-screen px-4 text-center">
                                     <Transition.Child
@@ -150,19 +150,30 @@ const Create = () => {
                                             >
                                                 Share link
                                             </Dialog.Title>
-                                            <div>
-                                                <div className="rounded-xl border-2 border-gray-300 p-2">
-                                                    <input
-                                                        ref={clipboard.target}
-                                                        readOnly
-                                                        value={`${window.location.host}/open?id=${created?.id}`}
-                                                        className="w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                                                    />
-                                                    <button className="rounded-xl border-2 border-gray-300 p-1" onClick={clipboard.copy}>
-                                                        Copy
-                                                    </button>
+                                            <Dialog.Description>
+                                                <div>
+                                                    <div className="rounded-xl border-2 border-gray-300 p-2">
+                                                        <input
+                                                            ref={clipboard.target}
+                                                            readOnly
+                                                            value={`${window.location.host}/open?id=${created?.id}`}
+                                                            className="w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                                                        />
+                                                        <button className="rounded-xl border-2 border-gray-300 p-1" onClick={clipboard.copy}>
+                                                            Copy
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <button
+                                                    type="button"
+                                                    className="py-4 px-6  bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200
+                             text-white transition ease-in duration-200 text-center text-base
+                              font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-full"
+                                                    onClick={closeModal}
+                                                >
+                                                    Got it!
+                                                </button>
+                                            </Dialog.Description>
                                         </div>
                                     </Transition.Child>
                                 </div>
