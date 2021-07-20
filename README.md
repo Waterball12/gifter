@@ -38,7 +38,7 @@ yarn dev
 ```
 
 
-Waiting till it create a build. Afterwards you'll be able to navigate to http://localhost:3000 to view the server running.
+Waiting till it create a build. Afterwards you'll be able to navigate to http://localhost:3000 to view website running.
 
 ## Folder structure
 
