@@ -7,7 +7,7 @@
 - [Deployment](#deployment)
 
 
-I was coding my Discord Bot when I had the idea of creating a website that allow to share gift links in which users can open the gift. I knew that I did not want a full login system because I wanted the user to just create share link on the fly instead of having to register on the website. Another required that I gave myself was to use next.js because I wanted to expand my knowledge on React.
+I was coding my Discord Bot when I had the idea of creating a website that allow to share gift links in which users can open the gift. I knew that I did not want a full login system because I wanted the user to just create a share link on the fly instead of having to register on the website. Another required that I gave myself was to use next.js because I wanted to expand my knowledge on React.
 
 ## Technologies used
 
