@@ -7,11 +7,11 @@
 - [Deployment](#deployment)
 
 
-I was coding my Discord Bot when I had the idea of creating a website that allow to share gift links in which users can open the gift. I knew that I did not want a full login system because I wanted the user to just create share link on the fly instead of having to register on the website. Another required that I gave myself was to use next.js because I wanted to expand my knowledge on React.
+I was coding my Discord Bot when I had the idea of creating a website that allow to share gift links in which users can open the gift. I knew that I did not want a full login system because I wanted the user to just create a share link on the fly instead of having to register on the website. Another required that I gave myself was to use next.js because I wanted to expand my knowledge on React.
 
 ## Technologies used
 
-I have used next.js for the frontend and ASP.NET Web API for the backend. It was relatively easy to set up the project using both framework and adjust the settings for my needs. I have used a boilerplate for next.js so that I already had most of the settings configured and I only had to add my pages etc. ASP.NET on the other hand was play and plug, I only had to create the project and I was ready to code the API logic.
+I have used next.js for the frontend and ASP.NET Web API for the backend. It was relatively easy to set up the project using both framework and adjust the settings for my needs. I have used a boilerplate for next.js so that I already had most of the settings configured and I only had to add my pages etc. ASP.NET on the other hand was play and plug, I only had to create the project and I was ready to code the API logic. JWT was used to authenticate the user into the system, it was the first time I used it without a database.
 
 ## Development
 
