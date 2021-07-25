@@ -6,16 +6,13 @@
 - [Nodejs](https://nodejs.org/en/download/)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 
-Please note that this contains only the frontend part of the application,
-the backend is here [Gifter.Api](https://github.com/Waterball12/gifter-api) 
-ignore /server/Gifter in this repository, it's outdated. Follow the instruction
-on the Gifter.Api repository to get the backend up and running.
-
 ## Technologies used
 
 - Next.js
 - Tailwind css
 - Formik.js
+- ASP.NET
+- Domain Driven Design
 
 ## Getting started
 
